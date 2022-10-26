@@ -1,0 +1,22 @@
+{
+  "devDependencies": {
+    "@badeball/cypress-cucumber-preprocessor": "^13.0.2",
+    "@bahmutov/cypress-esbuild-preprocessor": "^2.1.5",
+    "cypress": "^10.10.0",
+    "eslint": "^8.25.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-cypress": "^2.12.1",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "multiple-cucumber-html-reporter": "^3.0.1",
+    "prettier": "^2.7.1",
+    "typescript": "^4.8.4"
+  },
+  "scripts": {
+    "docker:create_image": "docker build -t cypress-cucumber:1.0.0 .",
+    "docker:tests_run": "docker run --name tests_run cypress-cucumber:1.0.0 /bin/bash -c \"npx cypress run --browser chrome; node ./cucumber-html-report.js\"",
+    "docker:get_report": "node ./rm_docker_reports.js && docker cp tests_run:/my-cypress-project/reports/ ./docker_reports",
+    "docker:repeat_tests_run": "docker rm tests_run && docker run --name tests_run cypress-cucumber:1.0.0 /bin/bash -c \"npx cypress run --browser chrome; node ./cucumber-html-report.js\""
+  }
+}

@@ -1,0 +1,9 @@
+node_modules
+cypress/reports
+cypress/videos
+cypress/screenshots
+cypress.env.json
+reports
+jsonlogs
+cucumber-json-formatter.exe
+docker_reports
