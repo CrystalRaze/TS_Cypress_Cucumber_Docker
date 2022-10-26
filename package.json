@@ -15,8 +15,8 @@
   },
   "scripts": {
     "docker:create_image": "docker build -t cypress-cucumber:1.0.0 .",
-    "docker:tests_run": "docker run --name tests_run cypress-cucumber:1.0.0 /bin/bash -c \"npx cypress run --browser chrome; node ./cucumber-html-report.js\"",
+    "docker:tests_run": "docker run -t --name tests_run cypress-cucumber:1.0.0 /bin/bash -c \"npx cypress run --browser chrome; node ./cucumber-html-report.js\"",
     "docker:get_report": "node ./rm_docker_reports.js && docker cp tests_run:/my-cypress-project/reports/ ./docker_reports",
-    "docker:repeat_tests_run": "docker rm tests_run && docker run --name tests_run cypress-cucumber:1.0.0 /bin/bash -c \"npx cypress run --browser chrome; node ./cucumber-html-report.js\""
+    "docker:repeat_tests_run": "docker rm tests_run && docker run -t --name tests_run cypress-cucumber:1.0.0 /bin/bash -c \"npx cypress run --browser chrome; node ./cucumber-html-report.js\""
   }
 }

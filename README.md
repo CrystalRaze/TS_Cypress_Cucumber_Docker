@@ -1,27 +1,25 @@
 # Short description
 
-This template inludes the combination of `Cypress` and `Cucumber` test automation frameworks.
-It includes several examples of `API` and `E2E` tests.
-All the test running results (`.json` files) are located in `./jsonlogs`.
+This template inludes the combination of `Cypress` and `Cucumber` test automation frameworks,
+and `Docker` for tests runs. It includes several examples of `API` and `E2E` tests.
 As well, it uses `multiple-cucumber-html-reporter` to generate a specific test-report.
-All the additional files such as `screenshots` and `videos` are located in related folders.
 
 # Technologies
 
 This template was created with the following thechnologies:
 
 - Cypress: ^10.10.0
-- ESBuild: ^0.15.10
 - Cypress-cucumber-preprocessor: ^13.0.2
 - Cypress-esbuild-preprocessor: ^2.1.5
 - Multiple-cucumber-html-reporter: ^3.0.1
+- Docker ^20.10.20
 
 # Installation
 
 ## Pre-conditions
 
-**NodeJS** must be installed on your operating system.
-Run the following commands to check your versions of packages:
+1. **NodeJS**. It must be installed on your operating system.
+   Run the following commands to check your versions of packages:
 
 ```
 node -v (should be ^17.1.0)
@@ -29,6 +27,14 @@ node -v (should be ^17.1.0)
 
 ```
 nmp -v (should be ^8.1.2)
+```
+
+2. **Docker**. It is used for the creation of images and containers for test runs.
+   You can donwload the `Docker` using this [link](https://www.docker.com).
+   Run the following command to check you Docker's version:
+
+```
+docker -v (should be ^20.10.20)
 ```
 
 ## IDE Plugins
@@ -44,67 +50,37 @@ You should install the following plugins:
 npm install
 ```
 
-## Install Cucumber-json-formatter
-
-To format test running results from `.json` to `html` you need to install
-one of the following versions of `cucumber-json-formatter`, depending on your OS:
-
-| File versions                                                                                                                                       | Operating System |
-| :-------------------------------------------------------------------------------------------------------------------------------------------------- | :--------------- |
-| [cucumber-json-formatter-darwin-amd64](https://github.com/cucumber/json-formatter/releases/download/v19.0.0/cucumber-json-formatter-darwin-amd64)   | MacOS            |
-| [cucumber-json-formatter-windows-amd64](https://github.com/cucumber/json-formatter/releases/download/v19.0.0/cucumber-json-formatter-windows-amd64) | Windows          |
-| [cucumber-json-formatter-linux-amd64](https://github.com/cucumber/json-formatter/releases/download/v19.0.0/cucumber-json-formatter-linux-amd64)     | Linux            |
-
-_Note_: Full list of formatter's versions here - [link](https://github.com/cucumber/json-formatter/releases/tag/v19.0.0)
-
-**Installation steps:**
-
-### MacOS
-
-- Download `cucumber-json-formatter-darwin-amd64` and rename it to `cucumber-json-formatter`
-- Move it to a directory that's on your `PATH`
-- Make it executable with `chmod +x cucumber-json-formatter`
-- Verify that you can run it: `cucumber-json-formatter --help`
-
-At the last step, you may get a security warning from MacOS. If you do, open _System Preferences_. Go to
-_Security Settings_. You should see a question asking if you want to open it anyway. Say yes.
-
-### Windows
-
-- Download `cucumber-json-formatter-windows-amd64` and rename it to `cucumber-json-formatter.exe`
-- Move it to a directory that's on your `PATH`
-- Verify that you can run it: `cucumber-json-formatter --help`
-
-### Linux
-
-- Download `cucumber-json-formatter-linux-amd64` (or one of the other CPU variants) and rename it to `cucumber-json-formatter`
-- Move it to a directory that's on your `PATH`
-- Make it executable with `chmod +x cucumber-json-formatter`
-- Verify that you can run it: `cucumber-json-formatter --help`
-
 # Tests running
 
-- To run your tests in headful mode, run:
+Before you start running scripts, make sure that you created `cypress.env.json` file with required data.
+
+- To build a new Docker image run:
 
 ```
-npm run tests:headful
+npm run docker:build_image
 ```
 
-- To run your tests in headless mode, run:
+- To run your tests for the first time, run:
 
 ```
-npm run tests:headless
+npm run docker:tests_run
 ```
+
+- To repeat tests running, run:
+
+```
+npm run docker:repeat_tests_run
+```
+
+**P.S:** If you want to run tests examples from this repository, just copy the data from `cypress.env.example.json`
+and paste it into the `cypress.env.json` file.
 
 # Report generation
 
-**Pre-condition**: The results of tests run (`.json` files) can be created only with headless running mode.
-So, if you want to generate `html` test-report, make sure that you ran your tests in headless mode before.
-
-- To generate Cucumber test-report, run:
+Test report will be generated automatically after the tests run, but it is accessable only in `Docker` container. To extract it, run the following command:
 
 ```
-npm run generate:Cucumber_report
+npm run docker:get_report
 ```
 
 # Afterwords
@@ -141,3 +117,5 @@ npm run generate:Cucumber_report
   `reportPath`, `browser`, or `platform` by changing the `cucumber-html-report.js` file.
   You can find more information about report config here - [link](https://www.npmjs.com/package/multiple-cucumber-html-reporter)
 - `tsconfig.json` - this file is used for TypeScript configuration in our project.
+- `Dockerfile` - it allows us to create specific images of our project and different containers.
+- `rm_docker_reports.js` - this script is used to delete old reports before you get a new one.
